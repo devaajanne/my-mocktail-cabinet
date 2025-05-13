@@ -7,7 +7,7 @@ import auth from "../../firebaseConfig";
 import type { LoginData } from "../types/LoginData";
 
 const LoginForm: React.FC = () => {
-  const navigate = useNavigate();
+  const navigateTo = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
   const {
@@ -22,7 +22,7 @@ const LoginForm: React.FC = () => {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, data.email, data.password);
         alert("Logged in");
-        navigate("/home");
+        navigateTo("/home");
       } else {
         await createUserWithEmailAndPassword(auth, data.email, data.password);
         alert("Account created");

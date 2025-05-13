@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { AppBar, Box, Container, Button, Toolbar, Typography } from "@mui/material";
 
 const Home: React.FC = () => {
-  const navigate = useNavigate();
+  const navigateTo = useNavigate();
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
       alert("You are logged out");
-      navigate("/");
+      navigateTo("/");
     } catch (error: any) {
       alert(error.message);
       console.error(`Error: ${error.message}`);
