@@ -2,15 +2,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import firebaseConfig from "../../firebaseConfig";
+import auth from "../../firebaseConfig";
 
 import type { LoginData } from "../types/LoginData";
 
 const LoginForm: React.FC = () => {
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
