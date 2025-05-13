@@ -5,12 +5,12 @@ import Home from "./components/Home.tsx";
 
 function App() {
   return (
-      <Router>
-        <Routes>
-          <Route path='/' element={<LoginForm />} />
-          <Route path='/home' element={<Home />} />
-        </Routes>
-      </Router>
+    <Router>
+      <Routes>
+        <Route path='/' element={<LoginForm />} />
+        <Route path='/home' element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 
