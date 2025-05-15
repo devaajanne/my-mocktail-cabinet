@@ -18,6 +18,13 @@ const LoginForm: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<LoginData>();
 
+  let buttonText;
+  if (isSubmitting) {
+    buttonText = isLogin ? "Logging in..." : "Signing up...";
+  } else {
+    buttonText = isLogin ? "Log in" : "Sign up";
+  }
+
   const onSubmit = async (data: LoginData) => {
     try {
       if (isLogin) {
@@ -67,7 +74,7 @@ const LoginForm: React.FC = () => {
             />
 
             <Button type='submit' variant='contained' color='primary' disabled={isSubmitting}>
-              {isSubmitting ? (isLogin ? "Logging in..." : "Signing up...") : isLogin ? "Login" : "Sign up"}
+              {buttonText}
             </Button>
           </Stack>
         </form>
