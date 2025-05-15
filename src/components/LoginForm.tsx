@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../../firebaseConfig";
+import { auth } from "../../firebaseConfig";
+import { Box, Button, TextField, Typography, Stack } from "@mui/material";
 
 import type { LoginData } from "../types/LoginData";
 
@@ -37,34 +38,48 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>{isLogin ? "Log in to My Mocktail Cabinet" : "Sign up to My Mocktail Cabinet"}</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Email</label>
-          <input type='email' {...register("email", { required: "Email is required" })} />
-          {errors.email && <p>{errors.email.message}</p>}
-        </div>
+    <>
+    <Box maxWidth={400} mx='auto' mt={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Typography variant='h5' gutterBottom>
+        {isLogin ? "Log in to My Mocktail Cabinet" : "Sign up to My Mocktail Cabinet"}
+      </Typography>
+    </Box>
 
-        <div>
-          <label>Password</label>
-          <input type='password' {...register("password", { required: "Password is required" })} />
-          {errors.password && <p>{errors.password.message}</p>}
-        </div>
+      <Box maxWidth={400} mx='auto' mt={2}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Stack spacing={2}>
+          <TextField
+            label='Email'
+            type='email'
+            fullWidth
+            {...register("email", { required: "Email is required" })}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+          />
 
-        <button type='submit' disabled={isSubmitting} style={{ margin: "10px" }}>
-          {isSubmitting ? (isLogin ? "Logging in" : "Signing up") : isLogin ? "Login" : "Sign up"}
-        </button>
+          <TextField
+            label='Password'
+            type='password'
+            fullWidth
+            {...register("password", { required: "Password is required" })}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+          />
+
+          <Button type='submit' variant='contained' color='primary' disabled={isSubmitting}>
+            {isSubmitting ? (isLogin ? "Logging in..." : "Signing up...") : isLogin ? "Login" : "Sign up"}
+          </Button>
+        </Stack>
       </form>
+      </Box>
 
-      <p>
-        {isLogin ? "Create an account" : "Already have an account?"}
-        <br />
-        <button onClick={() => setIsLogin(!isLogin)} style={{ margin: "10px" }}>
+      <Box mt={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography>{isLogin ? "Don't have an account yet?" : "Already have an account?"}</Typography>
+        <Button variant='outlined' color='primary'onClick={() => setIsLogin(!isLogin)} sx={{ mt: 1 }}>
           {isLogin ? "Sign up" : "Log in"}
-        </button>
-      </p>
-    </div>
+        </Button>
+      </Box>
+      </>
   );
 };
 
