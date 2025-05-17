@@ -85,7 +85,7 @@ const Mocktails: React.FC<Page> = ({ page }) => {
   return (
     <>
       <Container sx={{ marginTop: 4 }}>
-        <Grid container alignItems='center' justifyContent='center' sx={{ height: 60, mb: 4 }}>
+        <Grid container alignItems='center' justifyContent='center' sx={{ height: 20, mb: 4 }}>
           {loading ? <CircularProgress /> : null}
         </Grid>
 
