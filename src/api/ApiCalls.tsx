@@ -1,7 +1,6 @@
 import axios from "axios";
 import { collection, addDoc, getDocs, getDoc, deleteDoc, doc, query, where } from "firebase/firestore";
 import { auth, db } from "../../firebaseConfig";
-import { Alert } from "@mui/material";
 
 import type { ShortMocktailInfo, LongMocktailInfo } from "../types/Mocktails";
 
