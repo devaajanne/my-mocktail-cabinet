@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { signOut } from "firebase/auth";
-import auth from "../../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import { AppBar, Box, Container, Button, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Container, Button, Toolbar, Typography, Grid } from "@mui/material";
+import Mocktails from "./Mocktails";
 
 const Home: React.FC = () => {
   const navigateTo = useNavigate();
+  const [page, setPage] = useState("all");
 
   const handleLogout = async () => {
     try {
@@ -18,10 +20,14 @@ const Home: React.FC = () => {
     }
   };
 
+  function handlePageChange(page: string) {
+    setPage(page);
+  }
+
   return (
     <>
       <Container maxWidth='lg'>
-        <AppBar sx={{ backgroundColor: "#141414" }}>
+        <AppBar position='static'>
           <Toolbar>
             <Box sx={{ flex: 1 }} />
 
@@ -38,6 +44,20 @@ const Home: React.FC = () => {
             </Box>
           </Toolbar>
         </AppBar>
+        
+        <Grid container alignItems='center' justifyContent='center' spacing={6} direction='row' sx={{ mt: 2 }}>
+          <Button variant='contained' onClick={() => handlePageChange("all")}>
+            All mocktails
+          </Button>
+          <Button variant='contained' onClick={() => handlePageChange("cabinet")}>
+            My cabinet
+          </Button>
+        </Grid>
+        <Grid container>
+          <Grid>
+            <Mocktails page={page} />
+          </Grid>
+        </Grid>
       </Container>
     </>
   );
