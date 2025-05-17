@@ -68,7 +68,7 @@ async function getMocktailFromCabinet(docId: string): Promise<ShortMocktailInfo 
   }
 }
 
-async function addMocktailToCabinet(mocktail: ShortMocktailInfo, setAlertMessage: (message: string) => void) {
+async function addMocktailToCabinet(mocktail: ShortMocktailInfo, setAlertDialogOpen: any) {
   try {
     const user = auth.currentUser;
     if (!user) {
@@ -80,7 +80,7 @@ async function addMocktailToCabinet(mocktail: ShortMocktailInfo, setAlertMessage
     const snapshot = await getDocs(q);
 
     if (!snapshot.empty) {
-      setAlertMessage("This mocktail is already added to your cabinet!");
+      setAlertDialogOpen(true);
       return;
     }
 

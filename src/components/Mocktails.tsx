@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  Alert,
-  AlertTitle,
   Avatar,
   Button,
   Card,
@@ -37,7 +35,7 @@ const Mocktails: React.FC<Page> = ({ page }) => {
   const [mocktail, setMocktail] = useState<any | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertDialogOpen, setAlertDialogOpen] = useState(false);
 
   async function fetchData() {
     setLoading(true);
@@ -70,10 +68,11 @@ const Mocktails: React.FC<Page> = ({ page }) => {
 
   function handleCloseDialog() {
     setDialogOpen(false);
+    setAlertDialogOpen(false);
   }
 
   function handleAddMocktailToCabinet(mocktail: ShortMocktailInfo) {
-    addMocktailToCabinet(mocktail, setAlertMessage);
+    addMocktailToCabinet(mocktail, setAlertDialogOpen);
     setDialogOpen(false);
   }
 
@@ -87,15 +86,17 @@ const Mocktails: React.FC<Page> = ({ page }) => {
     <>
       <Container sx={{ marginTop: 4 }}>
         <Grid container alignItems='center' justifyContent='center' sx={{ height: 60, mb: 4 }}>
-          {loading ? (
-            <CircularProgress />
-          ) : alertMessage ? (
-            <Alert severity='warning' onClose={() => setAlertMessage(null)}>
-              <AlertTitle>Sorry!</AlertTitle>
-              {alertMessage}
-            </Alert>
-          ) : null}
+          {loading ? <CircularProgress /> : null}
         </Grid>
+
+        <Dialog open={alertDialogOpen}>
+          <DialogContent>
+            <Typography>This mocktail is already added to your cabinet!</Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>OK</Button>
+          </DialogActions>
+        </Dialog>
 
         <Grid container alignItems='center' justifyContent='center' spacing={2}>
           {mocktailList &&
