@@ -26,7 +26,6 @@ import {
   getMocktailFromCabinet,
 } from "../api/ApiCalls";
 
-
 import type { ShortMocktailInfo, LongMocktailInfo } from "../types/Mocktails";
 
 interface Page {
@@ -87,21 +86,15 @@ const Mocktails: React.FC<Page> = ({ page }) => {
   return (
     <>
       <Container sx={{ marginTop: 4 }}>
-        <Grid container alignItems='center' justifyContent='center' spacing={2}>
-          {loading && (
-            <Grid>
-              <CircularProgress />
-            </Grid>
-          )}
-        </Grid>
-
-        <Grid container alignItems='center' justifyContent='center' spacing={2}>
-          {alertMessage && (
+        <Grid container alignItems='center' justifyContent='center' sx={{ height: 60, mb: 4 }}>
+          {loading ? (
+            <CircularProgress />
+          ) : alertMessage ? (
             <Alert severity='warning' onClose={() => setAlertMessage(null)}>
               <AlertTitle>Sorry!</AlertTitle>
               {alertMessage}
             </Alert>
-          )}
+          ) : null}
         </Grid>
 
         <Grid container alignItems='center' justifyContent='center' spacing={2}>
