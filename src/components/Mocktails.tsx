@@ -86,15 +86,20 @@ const Mocktails: React.FC<Page> = ({ page }) => {
     <>
       <Container sx={{ marginTop: 4 }}>
         <Grid container alignItems='center' justifyContent='center' sx={{ height: 20, mb: 4 }}>
-          {loading ? <CircularProgress /> : null}
+          {loading ? <CircularProgress aria-label='Loading drinks' /> : null}
         </Grid>
 
-        <Dialog open={alertDialogOpen}>
+        <Dialog
+          open={alertDialogOpen}
+          aria-labelledby='duplicate-alert-title'
+          aria-describedby='duplicate-alert-description'>
           <DialogContent>
-            <Typography>This mocktail is already added to your cabinet!</Typography>
+            <Typography id='duplicate-alert-description'>This mocktail is already added to your cabinet!</Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog}>OK</Button>
+            <Button onClick={handleCloseDialog} aria-label='Close alert dialog'>
+              OK
+            </Button>
           </DialogActions>
         </Dialog>
 
@@ -102,13 +107,21 @@ const Mocktails: React.FC<Page> = ({ page }) => {
           {mocktailList &&
             mocktailList.map((drink) => (
               <Grid key={drink.idDrink}>
-                <Card>
+                <Card role='region' aria-labelledby={`card-title-${drink.idDrink}`}>
                   <CardHeader
                     avatar={<Avatar src={drink.strDrinkThumb} alt={drink.strDrink} sx={{ width: 60, height: 60 }} />}
-                    title={<Typography variant='h6'>{drink.strDrink}</Typography>}
+                    title={
+                      <Typography variant='h6' id={`card-title-${drink.idDrink}`}>
+                        {drink.strDrink}
+                      </Typography>
+                    }
                   />
                   <CardActions>
-                    <Button onClick={() => handleOpenDialog(drink)}>See more info</Button>
+                    <Button
+                      onClick={() => handleOpenDialog(drink)}
+                      aria-label={`See more information about ${drink.strDrink}`}>
+                      See more info
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -116,11 +129,11 @@ const Mocktails: React.FC<Page> = ({ page }) => {
         </Grid>
       </Container>
 
-      <Dialog open={dialogOpen}>
+      <Dialog open={dialogOpen} aria-labelledby='mocktail-dialog-title' aria-describedby='mocktail-dialog-description'>
         {mocktail && (
           <>
-            <DialogTitle>{mocktail.strDrink}</DialogTitle>
-            <DialogContent>
+            <DialogTitle id='mocktail-dialog-title'>{mocktail.strDrink}</DialogTitle>
+            <DialogContent id='mocktail-dialog-description'>
               <Typography sx={{ mb: 2 }}>Glass: {mocktail.strGlass}</Typography>
 
               {Object.entries(mocktail)
@@ -134,11 +147,21 @@ const Mocktails: React.FC<Page> = ({ page }) => {
             </DialogContent>
             <DialogActions>
               {page === "all" ? (
-                <Button onClick={() => handleAddMocktailToCabinet(mocktail)}>Add to my cabinet</Button>
+                <Button
+                  onClick={() => handleAddMocktailToCabinet(mocktail)}
+                  aria-label={`Add ${mocktail.strDrink} to my cabinet`}>
+                  Add to my cabinet
+                </Button>
               ) : (
-                <Button onClick={() => handleRemoveMocktailFromCabinet(mocktail.docId)}>Remove from my cabinet</Button>
+                <Button
+                  onClick={() => handleRemoveMocktailFromCabinet(mocktail.docId)}
+                  aria-label={`Remove ${mocktail.strDrink} from my cabinet`}>
+                  Remove from my cabinet
+                </Button>
               )}
-              <Button onClick={handleCloseDialog}>Close</Button>
+              <Button onClick={handleCloseDialog} aria-label='Close details dialog'>
+                Close
+              </Button>
             </DialogActions>
           </>
         )}

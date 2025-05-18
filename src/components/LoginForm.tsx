@@ -46,8 +46,14 @@ const LoginForm: React.FC = () => {
 
   return (
     <>
-      <Box maxWidth={400} mx='auto' mt={4} sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <Typography variant='h5' gutterBottom>
+      <Box
+        component='section'
+        maxWidth={400}
+        mx='auto'
+        mt={4}
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        aria-labelledby='auth-form-title'>
+        <Typography id='auth-form-title' variant='h5' gutterBottom>
           {isLogin ? "Log in to My Mocktail Cabinet" : "Sign up to My Mocktail Cabinet"}
         </Typography>
       </Box>
@@ -62,6 +68,7 @@ const LoginForm: React.FC = () => {
               {...register("email", { required: "Email is required" })}
               error={!!errors.email}
               helperText={errors.email?.message}
+              aria-required='true'
             />
 
             <TextField
@@ -71,9 +78,15 @@ const LoginForm: React.FC = () => {
               {...register("password", { required: "Password is required" })}
               error={!!errors.password}
               helperText={errors.password?.message}
+              aria-required='true'
             />
 
-            <Button type='submit' variant='contained' color='primary' disabled={isSubmitting}>
+            <Button
+              type='submit'
+              variant='contained'
+              color='primary'
+              disabled={isSubmitting}
+              aria-label={isLogin ? "Log in" : "Sign up"}>
               {buttonText}
             </Button>
           </Stack>
@@ -82,7 +95,12 @@ const LoginForm: React.FC = () => {
 
       <Box mt={4} sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <Typography>{isLogin ? "Don't have an account yet?" : "Already have an account?"}</Typography>
-        <Button variant='outlined' color='primary' onClick={() => setIsLogin(!isLogin)} sx={{ mt: 1 }}>
+        <Button
+          variant='outlined'
+          color='primary'
+          onClick={() => setIsLogin(!isLogin)}
+          sx={{ mt: 1 }}
+          aria-label={isLogin ? "Switch to sign up" : "Switch to log in"}>
           {isLogin ? "Sign up" : "Log in"}
         </Button>
       </Box>
