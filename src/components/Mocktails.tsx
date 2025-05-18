@@ -25,6 +25,7 @@ import {
 } from "../api/ApiCalls";
 
 import type { ShortMocktailInfo, LongMocktailInfo } from "../types/Mocktails";
+import AppDialog from "./AppDialog";
 
 interface Page {
   page: string;
@@ -33,9 +34,11 @@ interface Page {
 const Mocktails: React.FC<Page> = ({ page }) => {
   const [mocktailList, setMocktailList] = useState<ShortMocktailInfo[] | null>([]);
   const [mocktail, setMocktail] = useState<any | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [alertDialogOpen, setAlertDialogOpen] = useState(false);
+  const [mocktailDialogOpen, setMocktailDialogOpen] = useState(false);
+  const [duplicateAlertDialogOpen, setDuplicateAlertDialogOpen] = useState(false);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
   async function fetchData() {
     setLoading(true);
@@ -63,22 +66,22 @@ const Mocktails: React.FC<Page> = ({ page }) => {
     }
 
     setMocktail(data);
-    setDialogOpen(true);
+    setMocktailDialogOpen(true);
   }
 
   function handleCloseDialog() {
-    setDialogOpen(false);
-    setAlertDialogOpen(false);
+    setMocktailDialogOpen(false);
+    setDuplicateAlertDialogOpen(false);
+    setAddDialogOpen(false);
+    setRemoveDialogOpen(false);
   }
 
   function handleAddMocktailToCabinet(mocktail: ShortMocktailInfo) {
-    addMocktailToCabinet(mocktail, setAlertDialogOpen);
-    setDialogOpen(false);
+    addMocktailToCabinet(mocktail, setDuplicateAlertDialogOpen, setAddDialogOpen);
   }
 
   function handleRemoveMocktailFromCabinet(docId: string) {
-    removeMocktailFromCabinet(docId);
-    setDialogOpen(false);
+    removeMocktailFromCabinet(docId, setRemoveDialogOpen);
     fetchData();
   }
 
@@ -89,19 +92,9 @@ const Mocktails: React.FC<Page> = ({ page }) => {
           {loading ? <CircularProgress aria-label='Loading drinks' /> : null}
         </Grid>
 
-        <Dialog
-          open={alertDialogOpen}
-          aria-labelledby='duplicate-alert-title'
-          aria-describedby='duplicate-alert-description'>
-          <DialogContent>
-            <Typography id='duplicate-alert-description'>This mocktail is already added to your cabinet!</Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog} aria-label='Close alert dialog'>
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <AppDialog source={"duplicateAlert"} open={duplicateAlertDialogOpen} handleCloseDialog={handleCloseDialog} />
+        <AppDialog source={"add"} open={addDialogOpen} handleCloseDialog={handleCloseDialog} />
+        <AppDialog source={"remove"} open={removeDialogOpen} handleCloseDialog={handleCloseDialog} />
 
         <Grid container alignItems='center' justifyContent='center' spacing={2}>
           {mocktailList &&
@@ -129,7 +122,10 @@ const Mocktails: React.FC<Page> = ({ page }) => {
         </Grid>
       </Container>
 
-      <Dialog open={dialogOpen} aria-labelledby='mocktail-dialog-title' aria-describedby='mocktail-dialog-description'>
+      <Dialog
+        open={mocktailDialogOpen}
+        aria-labelledby='mocktail-dialog-title'
+        aria-describedby='mocktail-dialog-description'>
         {mocktail && (
           <>
             <DialogTitle id='mocktail-dialog-title'>{mocktail.strDrink}</DialogTitle>

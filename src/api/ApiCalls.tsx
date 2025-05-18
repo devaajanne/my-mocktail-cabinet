@@ -68,7 +68,7 @@ async function getMocktailFromCabinet(docId: string): Promise<ShortMocktailInfo 
   }
 }
 
-async function addMocktailToCabinet(mocktail: ShortMocktailInfo, setAlertDialogOpen: any) {
+async function addMocktailToCabinet(mocktail: ShortMocktailInfo, setAlertDialogOpen: any, setAddDialogOpen: any) {
   try {
     const user = auth.currentUser;
     if (!user) {
@@ -85,12 +85,13 @@ async function addMocktailToCabinet(mocktail: ShortMocktailInfo, setAlertDialogO
     }
 
     await addDoc(userMocktailCollection, mocktail);
+    setAddDialogOpen(true);
   } catch (error) {
     console.error("addMocktailToCabinet error: ", error);
   }
 }
 
-async function removeMocktailFromCabinet(docId: string) {
+async function removeMocktailFromCabinet(docId: string, setRemoveDialogOpen: any) {
   try {
     const user = auth.currentUser;
     if (!user) {
@@ -99,6 +100,7 @@ async function removeMocktailFromCabinet(docId: string) {
 
     const docRef = doc(db, "users", user.uid, "mocktails", docId);
     await deleteDoc(docRef);
+    setRemoveDialogOpen(true);
   } catch (error) {
     console.error("removeMocktailFromCabinet error: ", error);
   }
