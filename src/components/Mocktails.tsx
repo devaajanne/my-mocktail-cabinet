@@ -107,7 +107,7 @@ const Mocktails: React.FC<Page> = ({ page }) => {
           {mocktailList &&
             mocktailList.map((drink) => (
               <Grid key={drink.idDrink}>
-                <Card role='region' aria-labelledby={`card-title-${drink.idDrink}`}>
+                <Card role='region' aria-labelledby={`card-title-${drink.idDrink}`} sx={{ width: 300 }}>
                   <CardHeader
                     avatar={<Avatar src={drink.strDrinkThumb} alt={drink.strDrink} sx={{ width: 60, height: 60 }} />}
                     title={
