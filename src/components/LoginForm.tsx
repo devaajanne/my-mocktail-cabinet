@@ -20,7 +20,6 @@ const LoginForm: React.FC = () => {
   } = useForm<LoginData>();
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [signUpDialogOpen, setSignUpDialogOpen] = useState(false);
-  const [okToRoute, setOkToRoute] = useState(false);
 
   let buttonText;
   if (isSubmitting) {
