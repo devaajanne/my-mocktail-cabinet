@@ -4,16 +4,17 @@ import { auth } from "../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { AppBar, Box, Container, Button, Toolbar, Typography, Grid } from "@mui/material";
 import Mocktails from "./Mocktails";
+import AppDialog from "./AppDialog";
 
 const Home: React.FC = () => {
   const navigateTo = useNavigate();
   const [page, setPage] = useState("all");
+  const [logOutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      alert("You are logged out");
-      navigateTo("/");
+      setLogoutDialogOpen(true);
     } catch (error: any) {
       alert(error.message);
       console.error(`Error: ${error.message}`);
@@ -22,6 +23,11 @@ const Home: React.FC = () => {
 
   function handlePageChange(page: string) {
     setPage(page);
+  }
+
+  function handleLogOutDialogClose() {
+    setLogoutDialogOpen(false);
+    navigateTo("/");
   }
 
   return (
@@ -44,7 +50,9 @@ const Home: React.FC = () => {
             </Box>
           </Toolbar>
         </AppBar>
-        
+
+        <AppDialog source={"logout"} open={logOutDialogOpen} handleDialogClose={handleLogOutDialogClose} />
+
         <Grid container alignItems='center' justifyContent='center' spacing={6} direction='row' sx={{ mt: 2 }}>
           <Button variant='contained' onClick={() => handlePageChange("all")}>
             All mocktails

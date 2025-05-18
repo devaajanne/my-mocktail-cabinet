@@ -69,7 +69,7 @@ const Mocktails: React.FC<Page> = ({ page }) => {
     setMocktailDialogOpen(true);
   }
 
-  function handleCloseDialog() {
+  function handleDialogClose() {
     setMocktailDialogOpen(false);
     setDuplicateAlertDialogOpen(false);
     setAddDialogOpen(false);
@@ -92,9 +92,9 @@ const Mocktails: React.FC<Page> = ({ page }) => {
           {loading ? <CircularProgress aria-label='Loading drinks' /> : null}
         </Grid>
 
-        <AppDialog source={"duplicateAlert"} open={duplicateAlertDialogOpen} handleCloseDialog={handleCloseDialog} />
-        <AppDialog source={"add"} open={addDialogOpen} handleCloseDialog={handleCloseDialog} />
-        <AppDialog source={"remove"} open={removeDialogOpen} handleCloseDialog={handleCloseDialog} />
+        <AppDialog source={"duplicateAlert"} open={duplicateAlertDialogOpen} handleDialogClose={handleDialogClose} />
+        <AppDialog source={"add"} open={addDialogOpen} handleDialogClose={handleDialogClose} />
+        <AppDialog source={"remove"} open={removeDialogOpen} handleDialogClose={handleDialogClose} />
 
         <Grid container alignItems='center' justifyContent='center' spacing={2}>
           {mocktailList &&
@@ -155,7 +155,7 @@ const Mocktails: React.FC<Page> = ({ page }) => {
                   Remove from my cabinet
                 </Button>
               )}
-              <Button onClick={handleCloseDialog} aria-label='Close details dialog'>
+              <Button onClick={handleDialogClose} aria-label='Close details dialog'>
                 Close
               </Button>
             </DialogActions>

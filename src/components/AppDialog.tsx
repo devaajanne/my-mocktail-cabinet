@@ -3,26 +3,49 @@ import { Button, Dialog, DialogActions, DialogContent, Typography } from "@mui/m
 type AppDialogProps = {
   source: string;
   open: boolean;
-  handleCloseDialog: () => void;
+  handleDialogClose: () => void;
 };
 
-export default function AppDialog({ source, open, handleCloseDialog }: AppDialogProps) {
+export default function AppDialog({ source, open, handleDialogClose }: AppDialogProps) {
   let ariaTitle: string = "";
   let ariaDescription: string = "";
   let message: string = "";
 
-  if (source === "duplicateAlert") {
-    ariaTitle = "duplicatealert";
-    ariaDescription = "duplicatealert";
-    message = "This mocktail is already added to your cabinet!";
-  } else if (source == "add") {
-    ariaTitle = "add";
-    ariaDescription = "add";
-    message = "Mocktail added to your cabinet.";
-  } else {
-    ariaTitle = "remove";
-    ariaDescription = "remove";
-    message = "Mocktail removed from your cabinet.";
+  switch (source) {
+    case "login":
+      ariaTitle = "login";
+      ariaDescription = "login";
+      message = "Log in succesful!";
+      break;
+    case "signup":
+      ariaTitle = "signup";
+      ariaDescription = "signup";
+      message = "Sign up succesful!";
+      break;
+    case "logout":
+      ariaTitle = "logout";
+      ariaDescription = "logout";
+      message = "Log out succesful!";
+      break;
+    case "add":
+      ariaTitle = "add";
+      ariaDescription = "add";
+      message = "Mocktail added to your cabinet.";
+      break;
+    case "remove":
+      ariaTitle = "remove";
+      ariaDescription = "remove";
+      message = "Mocktail removed from your cabinet.";
+      break;
+    case "duplicateAlert":
+      ariaTitle = "duplicatealert";
+      ariaDescription = "duplicatealert";
+      message = "This mocktail is already added to your cabinet!";
+      break;
+    default:
+      ariaTitle = "error";
+      ariaDescription = "error";
+      message = "An error occurred";
   }
 
   return (
@@ -35,7 +58,7 @@ export default function AppDialog({ source, open, handleCloseDialog }: AppDialog
           <Typography id={`duplicate-${ariaDescription}-description`}>{message}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} aria-label='Close dialog'>
+          <Button onClick={handleDialogClose} aria-label='Close dialog'>
             Close
           </Button>
         </DialogActions>

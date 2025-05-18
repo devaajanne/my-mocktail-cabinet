@@ -6,6 +6,7 @@ import { auth } from "../../firebaseConfig";
 import { Box, Button, TextField, Typography, Stack } from "@mui/material";
 
 import type { LoginData } from "../types/LoginData";
+import AppDialog from "./AppDialog";
 
 const LoginForm: React.FC = () => {
   const navigateTo = useNavigate();
@@ -17,6 +18,9 @@ const LoginForm: React.FC = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<LoginData>();
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [signUpDialogOpen, setSignUpDialogOpen] = useState(false);
+  const [okToRoute, setOkToRoute] = useState(false);
 
   let buttonText;
   if (isSubmitting) {
@@ -29,11 +33,10 @@ const LoginForm: React.FC = () => {
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, data.email, data.password);
-        alert("Logged in");
-        navigateTo("/home");
+        setLoginDialogOpen(true);
       } else {
         await createUserWithEmailAndPassword(auth, data.email, data.password);
-        alert("Account created");
+        setSignUpDialogOpen(true);
         setIsLogin(true);
       }
       reset();
@@ -44,8 +47,19 @@ const LoginForm: React.FC = () => {
     }
   };
 
+  function handleLoginDialogClose() {
+    setLoginDialogOpen(false);
+    navigateTo("/home");
+  }
+
+  function handleSignUpDialogClose() {
+    setSignUpDialogOpen(false);
+  }
+
   return (
     <>
+      <AppDialog source={"login"} open={loginDialogOpen} handleDialogClose={handleLoginDialogClose} />
+      <AppDialog source={"signup"} open={signUpDialogOpen} handleDialogClose={handleSignUpDialogClose} />
       <Box
         component='section'
         maxWidth={400}
